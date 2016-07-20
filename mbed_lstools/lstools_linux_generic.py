@@ -154,7 +154,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         @details Uses Linux shell command: 'mount | grep vfat'
         """
         result = []
-        cmd = 'mount | grep vfat'
+        cmd = 'df -P | grep -v "Used" | awk \'{ print $1,$6}\''
 
         self.debug(self.get_mounts.__name__, cmd)
 
@@ -204,7 +204,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         @param tids TargetID comprehensive list for detection (manufacturers_ids)
         @param disk_list List of disks (mount points in /dev/disk)
         @param serial_list List of serial devices (serial ports in /dev/serial)
-        @param mount_list List of lines from 'mount' command
+        @param mount_list List of lines from 'df' command
         @return list of lists [mbed_name, mbed_dev_disk, mbed_mount_point, mbed_dev_serial, disk_hex_id]
         @details Find for all disk connected all MBED ones we know about from TID list
         """
@@ -282,7 +282,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         return mbed_dev
 
     def get_mount_point(self, dev_name, mount_list):
-        """! Find mount points for MBED devices using mount command output
+        """! Find mount points for MBED devices using df command output
         @param dev_name Device name (e.g 'sda')
         @param mount_list List of all mounted devices (strings from Linux mount shell command)
         @return Returns None if mount point not found. Else returns device mount path
@@ -291,7 +291,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         /media/MBED__xxx
         /media/MBED-xxx
         """
-        mount_media_pattern = "^/[a-zA-Z0-9/]*/" + dev_name  + " on (/[a-zA-Z0-9_\-/]*) "
+        mount_media_pattern = "/[a-zA-Z0-9/]*/" + dev_name  + " (/[a-zA-Z0-9_\-/]*)"
         mmp = re.compile(mount_media_pattern)
         for mount in mount_list:
             m = mmp.search(mount)
