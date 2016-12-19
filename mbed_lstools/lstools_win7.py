@@ -37,7 +37,7 @@ class MbedLsToolsWin7(MbedLsToolsBase):
             import winreg
         self.winreg = winreg
 
-    def list_mbeds(self):
+    def list_mbeds(self, target_ids=[]):
         """! Returns detailed list of connected mbeds
             @return Returns list of structures with detailed info about each mbed
             @details Function returns list of dictionaries with mbed attributes such as mount point, TargetID name etc.
@@ -45,7 +45,7 @@ class MbedLsToolsWin7(MbedLsToolsBase):
         self.ERRORLEVEL_FLAG = 0
 
         mbeds = []
-        for mbed in self.discover_connected_mbeds(self.manufacture_ids):
+        for mbed in self.discover_connected_mbeds(self.manufacture_ids, target_ids):
             d = {}
             d['mount_point'] = mbed[0] if mbed[0] else None
             d['target_id'] = mbed[1] if mbed[1] else None
@@ -60,13 +60,13 @@ class MbedLsToolsWin7(MbedLsToolsBase):
 
         return mbeds
 
-    def discover_connected_mbeds(self, defs={}):
+    def discover_connected_mbeds(self, defs={}, target_ids=[]):
         """! Function produces list of mbeds with additional information and bind mbed with correct TargetID
             @return Returns [(<mbed_mount_point>, <mbed_id>, <com port>, <board model>,
                               <usb_target_id>, <htm_target_id>), ..]
             @details Notice: this function is permissive: adds new elements in-places when and if found
         """
-        mbeds = [(m[0], m[1], None, None) for m in self.get_connected_mbeds()]
+        mbeds = [(m[0], m[1], None, None) for m in self.get_connected_mbeds(target_ids)]
         for i in range(len(mbeds)):
             mbed = mbeds[i]
             mnt = mbed[0]
@@ -133,12 +133,12 @@ class MbedLsToolsWin7(MbedLsToolsBase):
         # If everything fails, return None
         return None
 
-    def get_connected_mbeds(self):
+    def get_connected_mbeds(self, target_ids=[]):
         """! Function  return mbeds with existing mount point
         @return Returns [(<mbed_mount_point>, <mbed_id>), ..]
         @details Helper function
         """
-        return [m for m in self.get_mbeds() if self.mount_point_ready(m[0])]
+        return [m for m in self.get_mbeds(target_ids) if self.mount_point_ready(m[0])]
 
     def get_connected_mbeds_usb_ids(self):
         """! Function  return mbeds with existing mount point's
@@ -152,7 +152,7 @@ class MbedLsToolsWin7(MbedLsToolsBase):
             connected_mbeds_ids[target_id] = mbed[1]
         return connected_mbeds_ids
 
-    def get_mbeds(self):
+    def get_mbeds(self, target_ids=[]):
         """! Function filters devices' mount points for valid TargetID
         @return Returns [(<mbed_mount_point>, <mbed_id>), ..]
         @details TargetID should be a hex string with 10-48 chars
@@ -165,8 +165,9 @@ class MbedLsToolsWin7(MbedLsToolsBase):
             if not m:
                 continue
             tid = m.group(1)
-            mbeds += [(mountpoint, tid)]
-            self.debug(self.get_mbeds.__name__, (mountpoint, tid))
+            if not target_ids or tid in target_ids:
+                mbeds += [(mountpoint, tid)]
+                self.debug(self.get_mbeds.__name__, (mountpoint, tid))
         return mbeds
 
     def get_mbed_target_id(self, mnt, target_usb_id):

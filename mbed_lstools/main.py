@@ -105,6 +105,10 @@ def cmd_parser_setup():
                       dest='mock_platform',
                       help='Add locally manufacturers id and platform name. Example --mock=12B4:NEW_PLATFORM')
 
+    parser.add_option('-t', '--target-ids',
+                      dest='target_ids',
+                      help='Limit list of returned devices to the secified comma-separated list of target ids')
+
     parser.add_option('-j', '--json',
                       dest='json',
                       default=False,
@@ -178,6 +182,8 @@ def mbedls_main():
         print(mbeds.list_manufacture_ids())
         sys.exit(0)
 
+    target_ids = opts.target_ids.split(',') if opts.target_ids else []
+
     if opts.mock_platform:
         if opts.mock_platform == '*':
             if opts.json:
@@ -200,22 +206,22 @@ def mbedls_main():
             print(json.dumps(mbeds.mock_read(), indent=4))
 
     elif opts.json:
-        print(json.dumps(mbeds.list_mbeds_ext(), indent=4, sort_keys=True))
+        print(json.dumps(mbeds.list_mbeds_ext(target_ids=target_ids), indent=4, sort_keys=True))
 
     elif opts.json_by_target_id:
-        print(json.dumps(mbeds.list_mbeds_by_targetid(), indent=4, sort_keys=True))
+        print(json.dumps(mbeds.list_mbeds_by_targetid(target_ids=target_ids), indent=4, sort_keys=True))
 
     elif opts.json_platforms:
-        print(json.dumps(mbeds.list_platforms(), indent=4, sort_keys=True))
+        print(json.dumps(mbeds.list_platforms(target_ids=target_ids), indent=4, sort_keys=True))
 
     elif opts.json_platforms_ext:
-        print(json.dumps(mbeds.list_platforms_ext(), indent=4, sort_keys=True))
+        print(json.dumps(mbeds.list_platforms_ext(target_ids=target_ids), indent=4, sort_keys=True))
 
     elif opts.version:
         print(get_mbedls_version())
 
     else:
-        print(mbeds.get_string(border=not opts.simple, header=not opts.simple))
+        print(mbeds.get_string(border=not opts.simple, header=not opts.simple, target_ids=target_ids))
 
     mbeds.debug(__name__, "Return code: %d" % mbeds.ERRORLEVEL_FLAG)
 
