@@ -124,11 +124,11 @@ class MbedLsToolsWin7(MbedLsToolsBase):
                 pass
 
         # Check for a target USB ID from tid
-        target_usb_ids = self.get_connected_mbeds_usb_ids()
+        '''target_usb_ids = self.get_connected_mbeds_usb_ids()
         if tid in target_usb_ids:
             if target_usb_ids[tid] != tid:
                 # Try again with the target USB ID
-                return self.get_mbed_com_port(target_usb_ids[tid])
+                return self.get_mbed_com_port(target_usb_ids[tid])'''
 
         # If everything fails, return None
         return None
@@ -139,6 +139,7 @@ class MbedLsToolsWin7(MbedLsToolsBase):
         @details Helper function
         """
         return [m for m in self.get_mbeds() if self.mount_point_ready(m[0])]
+        #return [m for m in self.get_mbeds() if "D" in m[0]]
 
     def get_connected_mbeds_usb_ids(self):
         """! Function  return mbeds with existing mount point's
@@ -176,11 +177,12 @@ class MbedLsToolsWin7(MbedLsToolsBase):
         @return Function returns (<target_id>, <htm_target_id>)
         @details Helper function
         """
-        mbed_htm_target_id = self.get_mbed_htm_target_id(mnt)
+        self.debug(self.get_mbed_target_id.__name__, (mnt, target_usb_id))
+        #mbed_htm_target_id = self.get_mbed_htm_target_id(mnt)
         # Deducing mbed-enabled TargetID based on available targetID definition DB.
         # If TargetID from USBID is not recognized we will try to check URL in mbed.htm
-        mbed_id = mbed_htm_target_id if mbed_htm_target_id is not None else target_usb_id
-        return mbed_id, mbed_htm_target_id
+        #mbed_id = mbed_htm_target_id if mbed_htm_target_id is not None else target_usb_id
+        return target_usb_id, target_usb_id
 
     # =============================== Registry ====================================
 
@@ -242,12 +244,14 @@ class MbedLsToolsWin7(MbedLsToolsBase):
         `dir` prevents this since it uses the Windows API to determine if the
         device is ready before accessing the file system.
         """
-        stdout, stderr, retcode = self.run_cli_process('dir %s' % path)
-        result = True if retcode == 0 else False
+        #stdout, stderr, retcode = self.run_cli_process('dir %s' % path)
+        #result = True if retcode == 0 else False
+        result = os.path.exists(path)
 
         if result:
             self.debug(self.mount_point_ready.__name__, "Mount point %s is ready" % path)
         else:
-            self.debug(self.mount_point_ready.__name__, "Mount point %s reported not ready with error '%s'" % (path, stderr.strip()))
+            #self.debug(self.mount_point_ready.__name__, "Mount point %s reported not ready with error '%s'" % (path, stderr.strip()))
+            self.debug(self.mount_point_ready.__name__, "Mount point %s reported not ready" % path)
 
         return result

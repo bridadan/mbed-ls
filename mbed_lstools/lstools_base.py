@@ -452,7 +452,7 @@ class MbedLsToolsBase:
                     self.debug(self.list_mbeds_ext.__name__, ("retargeting", target_id, mbeds[i]))
 
             # Add interface chip meta data to mbed structure
-            details_txt = self.get_details_txt(val['mount_point'])
+            '''details_txt = self.get_details_txt(val['mount_point'])
             if details_txt:
                 for field in details_txt:
                     field_name = 'daplink_' + field.lower().replace(' ', '_')
@@ -464,7 +464,7 @@ class MbedLsToolsBase:
                 for field in mbed_htm:
                     field_name = 'daplink_' + field.lower().replace(' ', '_')
                     if field_name not in mbeds[i]:
-                        mbeds[i][field_name] = mbed_htm[field]
+                        mbeds[i][field_name] = mbed_htm[field]'''
 
             self.debug(self.list_mbeds_ext.__name__, (mbeds[i]['platform_name_unique'], val['target_id']))
         return mbeds
