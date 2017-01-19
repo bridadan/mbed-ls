@@ -36,7 +36,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         self.nlp = re.compile(self.name_link_pattern)
         self.hup = re.compile(self.hex_uuid_pattern)
 
-    def list_mbeds(self):
+    def list_mbeds(self, target_ids=[]):
         """! Returns detailed list of connected mbeds
         @return Returns list of structures with detailed info about each mbed
         @details Function returns list of dictionaries with mbed attributes such as mount point, TargetID name etc.
@@ -81,7 +81,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         tids = self.manufacture_ids
 
         # Listing known and undetected / orphan devices
-        mbeds = self.get_detected(tids, disk_ids, serial_ids, mount_ids)
+        mbeds = self.get_detected(tids, disk_ids, serial_ids, mount_ids, target_ids=target_ids)
         orphans = self.get_not_detected(tids, disk_ids, serial_ids, mount_ids)
         all_devices = mbeds + orphans
 
@@ -201,7 +201,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
                     return mbed_dev_serial
         return None
 
-    def get_detected(self, tids, disk_list, serial_list, mount_list):
+    def get_detected(self, tids, disk_list, serial_list, mount_list, target_ids=[]):
         """! Find all known mbed devices and assign name by targetID
         @param tids TargetID comprehensive list for detection (manufacturers_ids)
         @param disk_list List of disks (mount points in /dev/disk)
@@ -215,9 +215,16 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         map_tid_to_mbed = self.get_tid_mbed_name_remap(tids)
 
         result = []
+        
+        valid_disk_hex_ids = []
+        if target_ids:
+            valid_disk_hex_ids = [x for x in disk_hex_ids.keys() if x in target_ids]
+        else:
+            valid_disk_hex_ids = disk_hex_ids.keys()
+
 
         # Search if we have
-        for dhi in disk_hex_ids.keys():
+        for dhi in valid_disk_hex_ids:
             for mttm in map_tid_to_mbed.keys():
                 if dhi.startswith(mttm):
                     mbed_name = map_tid_to_mbed[mttm]
@@ -234,7 +241,7 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
                         result.append([mbed_name, mbed_dev_disk, mbed_mount_point, mbed_dev_serial, disk_hex_ids[dhi]])
         return result
 
-    def get_not_detected(self, tids, disk_list, serial_list, mount_list):
+    def get_not_detected(self, tids, disk_list, serial_list, mount_list, target_ids=[]):
         """! Find all unknown mbed-enabled devices (may have 'mbed' string in USBID name)
         @param tids TargetID comprehensive list for detection (manufacturers_ids)
         @param disk_list List of disks (mount points in /dev/disk)
@@ -244,10 +251,16 @@ class MbedLsToolsLinuxGeneric(MbedLsToolsBase):
         @details Find for all disk connected all MBED ones we know about from TID list
         """
         disk_hex_ids = self.get_disk_hex_ids(disk_list)
-
         map_tid_to_mbed = self.get_tid_mbed_name_remap(tids)
+
+        valid_disk_hex_ids = []
+        if target_ids:
+            valid_disk_hex_ids = [x for x in disk_hex_ids.keys() if x in target_ids]
+        else:
+            valid_disk_hex_ids = disk_hex_ids.keys()
+
         orphan_mbeds = {}
-        for disk in disk_hex_ids:
+        for disk in valid_disk_hex_ids:
             if "mbed" in disk_hex_ids[disk].lower():
                 orphan_found = True
                 for tid in map_tid_to_mbed.keys():
