@@ -28,7 +28,7 @@ class MbedLsToolsDarwin(MbedLsToolsBase):
 
     mbed_volume_name_match = re.compile(r'(\bmbed\b|\bSEGGER MSD\b)', re.I)
 
-    def list_mbeds(self):
+    def list_mbeds(self, target_ids=[]):
         """ returns mbed list with platform names if possible
         """
 
@@ -47,7 +47,8 @@ class MbedLsToolsDarwin(MbedLsToolsBase):
         valid_volumes = {}
 
         for key in intersection:
-            valid_volumes[key] = volumes[key]
+            if not target_ids or self.target_id(volumes[key]) in target_ids:
+                valid_volumes[key] = volumes[key]
 
         # put together all of that info into the expected format:
         result =  [
