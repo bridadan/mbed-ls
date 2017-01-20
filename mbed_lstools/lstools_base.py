@@ -569,7 +569,8 @@ class MbedLsToolsBase:
         """
         from prettytable import PrettyTable
         result = ''
-        self.debug(self.get_string.__name__, (target_ids))
+        if target_ids:
+            self.debug(self.get_string.__name__, 'Limiting results to platforms with the following target ids: %s' % (', '.join(target_ids)))
         mbeds = self.list_mbeds_ext(target_ids=target_ids)
         if mbeds:
             """ ['platform_name', 'mount_point', 'serial_port', 'target_id'] - columns generated from USB auto-detection
