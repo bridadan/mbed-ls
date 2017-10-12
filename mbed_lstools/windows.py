@@ -36,7 +36,6 @@ class MbedLsToolsWin7(MbedLsToolsBase):
     """
     def __init__(self, **kwargs):
         MbedLsToolsBase.__init__(self, **kwargs)
-        self.os_supported.append('Windows7')
 
     def find_candidates(self):
         return [

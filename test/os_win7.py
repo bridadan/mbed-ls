@@ -50,8 +50,12 @@ class Win7TestCase(unittest.TestCase):
         _winreg.SetValueEx.reset_mock()
         _winreg.SaveKey.reset_mock()
 
-    def test_os_supported(self):
-        pass
+    '''
+    This test case is necessary as some logging output is irrelavent when the
+    tool is running on Windows and the class name is used to detect this
+    '''
+    def test_class_name(self):
+        self.assertEqual(self.lstool.__class__.__name__, 'MbedLsToolsWin7')
 
     def test_empty_reg(self):
         _winreg.QueryInfoKey.return_value = (0, 0)

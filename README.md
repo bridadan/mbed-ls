@@ -159,7 +159,6 @@ Extended mbedls API example:
  'list_platforms_ext',
  'load_mbed_description',
  'manufacture_ids',
- 'os_supported',
  'regbin2str',
  'scan_html_line_for_target_id',
  'usb_vendor_list',

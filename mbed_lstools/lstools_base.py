@@ -57,10 +57,6 @@ class MbedLsToolsBase(object):
 
     __metaclass__ = ABCMeta
 
-    # Which OSs are supported by this module
-    # Note: more than one OS can be supported by mbed-lstools_* module
-    os_supported = []
-
     # Directory where we will store global (OS user specific mocking)
     HOME_DIR = expanduser("~")
     MOCK_FILE_NAME = '.mbedls-mock'
@@ -134,7 +130,8 @@ class MbedLsToolsBase(object):
             if  ((not device['mount_point'] or
                   not self.mount_point_ready(device['mount_point'])) and
                  not self.list_unmounted):
-                if  (device['target_id_usb_id'] and device['serial_port']):
+                if  (device['target_id_usb_id'] and device['serial_port']
+                    and self.__class__.__name__ != 'MbedLsToolsWin7'):
                     logger.warning(
                         "MBED with target id '%s' is connected, but not mounted. "
                         "Use the '-u' flag to include it in the list.",
