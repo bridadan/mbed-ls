@@ -90,12 +90,12 @@ class LinuxPortTestCase(unittest.TestCase):
             file_object.__iter__.return_value = open_dict[path].splitlines(True)
             return file_object
 
-        with patch('mbed_lstools.linux.MbedLsToolsLinuxGeneric._run_cli_process') as _cliproc,\
+        with patch('mbed_tools.detect.linux.MbedLsToolsLinuxGeneric._run_cli_process') as _cliproc,\
              patch('os.readlink') as _readlink,\
              patch('os.listdir') as _listdir,\
-             patch('mbed_lstools.linux.abspath') as _abspath,\
-             patch('mbed_lstools.linux.open', do_open) as _,\
-             patch('mbed_lstools.linux.isdir') as _isdir:
+             patch('os.path.abspath') as _abspath,\
+             patch('mbed_tools.detect.linux.open', do_open) as _,\
+             patch('os.path.isdir') as _isdir:
             _isdir.return_value = True
             _cliproc.return_value = (b'\n'.join(mount_list), None, 0)
             def do_readlink(link):
