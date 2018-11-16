@@ -1,3 +1,9 @@
+# Development moved: https://github.com/armmbed/mbed-tools
+
+The development of Mbed LS has been moved into the [mbed-tools](https://github.com/armmbed/mbed-tools) repository. You can continue to use this module for legacy reasons, however all further development should be continued in the new repository.
+
+-------------
+
 [![Build status](https://circleci.com/gh/ARMmbed/mbed-ls/tree/master.svg?style=svg)](https://circleci.com/gh/ARMmbed/mbed-ls/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/ARMmbed/mbed-ls/badge.svg?branch=master)](https://coveralls.io/github/ARMmbed/mbed-ls?branch=master)
 [![PyPI version](https://badge.fury.io/py/mbed-ls.svg)](https://badge.fury.io/py/mbed-ls)
