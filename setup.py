@@ -51,7 +51,7 @@ setup(name='mbed-ls',
         ],
       },
       install_requires=[
-          "mbed_os_tools"
+          "mbed_os_tools==0.0.1"
       ],
       tests_require = [
           "mock>=2",
