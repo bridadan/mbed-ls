@@ -51,7 +51,7 @@ class EmptyPlatformDatabaseTests(unittest.TestCase):
         """Verify that the platform database still works without a
         working backing file
         """
-        with patch("mbed_tools.detect.platform_database.open") as _open:
+        with patch("mbed_os_tools.detect.platform_database.open") as _open:
             _open.side_effect = IOError("Bogus")
             self.pdb = PlatformDatabase([self.base_db_path])
             self.pdb.add("1234", "MYTARGET")
@@ -70,7 +70,7 @@ class EmptyPlatformDatabaseTests(unittest.TestCase):
     def test_broken_database(self):
         """Verify that the platform database correctly reset's its database
         """
-        with patch("mbed_tools.detect.platform_database.open") as _open:
+        with patch("mbed_os_tools.detect.platform_database.open") as _open:
             stringio = MagicMock()
             _open.side_effect = (IOError("Bogus"), stringio)
             self.pdb = PlatformDatabase([LOCAL_PLATFORM_DATABASE])
@@ -83,7 +83,7 @@ class EmptyPlatformDatabaseTests(unittest.TestCase):
         """Verify that the platform database falls back to the built in database
         even when it can't write to disk
         """
-        with patch("mbed_tools.detect.platform_database.open") as _open:
+        with patch("mbed_os_tools.detect.platform_database.open") as _open:
             _open.side_effect = IOError("Bogus")
             self.pdb = PlatformDatabase([LOCAL_PLATFORM_DATABASE])
             self.pdb.add("1234", "MYTARGET")
@@ -92,7 +92,7 @@ class EmptyPlatformDatabaseTests(unittest.TestCase):
     def test_old_database(self):
         """Verify that the platform database correctly updates's its database
         """
-        with patch("mbed_tools.detect.platform_database.open") as _open,\
+        with patch("mbed_os_tools.detect.platform_database.open") as _open,\
              patch("mbed_lstools.platform_database.getmtime") as _getmtime:
             file_mock = MagicMock()
             file_mock.read.return_value = ''
@@ -268,7 +268,7 @@ class OverriddenPlatformDatabaseTests(unittest.TestCase):
 class InternalLockingChecks(unittest.TestCase):
 
     def setUp(self):
-        self.mocked_lock = patch('mbed_tools.detect.platform_database.InterProcessLock', spec=True).start()
+        self.mocked_lock = patch('mbed_os_tools.detect.platform_database.InterProcessLock', spec=True).start()
         self.acquire = self.mocked_lock.return_value.acquire
         self.release = self.mocked_lock.return_value.release
 

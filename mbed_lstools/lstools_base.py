@@ -15,7 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from mbed_tools.detect.lstools_base import *
+import functools
+
+from mbed_os_tools.detect.lstools_base import *
 
 def deprecated(reason):
     """Deprecate a function/method with a decorator"""

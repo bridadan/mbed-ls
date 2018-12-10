@@ -24,7 +24,7 @@ from collections import defaultdict
 
 # Make sure that any global generic setup is run
 from . import lstools_base
-from mbed_tools.detect.main import *
+from mbed_os_tools.detect.main import *
 
 import logging
 logger = logging.getLogger("mbedls.main")

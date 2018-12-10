@@ -136,7 +136,7 @@ class BasicTestCase(unittest.TestCase):
                                        'serial_port': "dummy_serial_port"}]
             with patch("mbed_lstools.lstools_base.MbedLsToolsBase.mount_point_ready") as _mpr,\
                  patch('os.listdir') as _listdir,\
-                 patch('mbed_tools.detect.lstools_base.open', mock, create=True):
+                 patch('mbed_os_tools.detect.lstools_base.open', mock, create=True):
                 _mpr.return_value = True
                 _listdir.return_value = ['MBED.HTM', 'DETAILS.TXT']
                 to_check = self.base.list_mbeds()
@@ -182,7 +182,7 @@ Remount count: 0
         m = mock_open(read_data=details_txt_contents)
         with patch("mbed_lstools.lstools_base.MbedLsToolsBase.mount_point_ready") as _mpr,\
              patch('os.listdir') as _listdir,\
-             patch('mbed_tools.detect.lstools_base.open', m, create=True) as mocked_open:
+             patch('mbed_os_tools.detect.lstools_base.open', m, create=True) as mocked_open:
             mocked_open.side_effect = _handle_open
             _mpr.return_value = True
             _listdir.return_value = ['PRODINFO.HTM', 'DETAILS.TXT']
@@ -199,7 +199,7 @@ Remount count: 0
             with patch("mbed_lstools.lstools_base.MbedLsToolsBase.mount_point_ready") as _mpr,\
                  patch('os.listdir') as _listdir,\
                  patch("mbed_lstools.lstools_base.MbedLsToolsBase._update_device_from_htm") as _htm,\
-                 patch('mbed_tools.detect.lstools_base.open', mock, create=True):
+                 patch('mbed_os_tools.detect.lstools_base.open', mock, create=True):
                 _mpr.return_value = True
                 _htm.side_effect = None
                 _listdir.return_value = ['MBED.HTM', 'DETAILS.TXT']
@@ -327,7 +327,7 @@ Remount count: 0
             'mount_point': dummy_mount_point
         }
 
-        with patch('mbed_tools.detect.lstools_base.open', _open, create=True):
+        with patch('mbed_os_tools.detect.lstools_base.open', _open, create=True):
             device = deepcopy(base_device)
             device['directory_entries'] = ['Board.html', 'User Guide.html']
             self.base._update_device_details_jlink(device, False)
@@ -552,7 +552,7 @@ class RetargetTestCase(unittest.TestCase):
         _open = mock_open(read_data=json.dumps(retarget_data))
 
         with patch('os.path.isfile') as _isfile,\
-             patch('mbed_tools.detect.lstools_base.open', _open, create=True):
+             patch('mbed_os_tools.detect.lstools_base.open', _open, create=True):
             self.base = DummyLsTools()
             _open.assert_called()
 

@@ -17,10 +17,10 @@ limitations under the License.
 
 """Functions that manage a platform database"""
 
-from mbed_tools.detect.platform_database import *
+from mbed_os_tools.detect.platform_database import *
 
 """
 NOTE: The platform database is now in the mbed-tools repository. You can find it below:
-https://github.com/ARMmbed/mbed-tools/blob/master/mbed_tools/detect/platform_database.py
+https://github.com/ARMmbed/mbed-tools/blob/master/mbed_os_tools/detect/platform_database.py
 Please make all further contributions to the new repository.
 """

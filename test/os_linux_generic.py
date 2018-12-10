@@ -94,7 +94,7 @@ class LinuxPortTestCase(unittest.TestCase):
              patch('os.readlink') as _readlink,\
              patch('os.listdir') as _listdir,\
              patch('os.path.abspath') as _abspath,\
-             patch('mbed_tools.detect.linux.open', do_open) as _,\
+             patch('mbed_os_tools.detect.linux.open', do_open) as _,\
              patch('os.path.isdir') as _isdir:
             _isdir.return_value = True
             _cliproc.return_value = (b'\n'.join(mount_list), None, 0)
