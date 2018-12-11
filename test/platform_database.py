@@ -93,7 +93,7 @@ class EmptyPlatformDatabaseTests(unittest.TestCase):
         """Verify that the platform database correctly updates's its database
         """
         with patch("mbed_os_tools.detect.platform_database.open") as _open,\
-             patch("mbed_lstools.platform_database.getmtime") as _getmtime:
+             patch("mbed_os_tools.detect.platform_database.getmtime") as _getmtime:
             file_mock = MagicMock()
             file_mock.read.return_value = ''
             _open.return_value.__enter__.return_value = file_mock

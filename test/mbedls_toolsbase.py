@@ -58,7 +58,7 @@ class BasicTestCase(unittest.TestCase):
                                    'serial_port': 'not_valid'}]
         with patch("mbed_lstools.lstools_base.MbedLsToolsBase._read_htm_ids") as _read_htm,\
              patch("mbed_lstools.lstools_base.MbedLsToolsBase.mount_point_ready") as _mpr,\
-             patch("mbed_lstools.lstools_base.PlatformDatabase.get") as _get,\
+             patch("mbed_os_tools.detect.platform_database.PlatformDatabase.get") as _get,\
              patch("mbed_os_tools.detect.lstools_base.listdir") as _listdir:
             _mpr.return_value = True
             _read_htm.return_value = (u'0241BEEFDEAD', {})
@@ -82,7 +82,7 @@ class BasicTestCase(unittest.TestCase):
                                    'serial_port': 'not_valid'}]
         with patch("mbed_lstools.lstools_base.MbedLsToolsBase._read_htm_ids") as _read_htm,\
              patch("mbed_lstools.lstools_base.MbedLsToolsBase.mount_point_ready") as _mpr,\
-             patch("mbed_lstools.lstools_base.PlatformDatabase.get") as _get,\
+             patch("mbed_os_tools.detect.platform_database.PlatformDatabase.get") as _get,\
              patch("mbed_os_tools.detect.lstools_base.listdir") as _listdir:
             _mpr.return_value = True
             _read_htm.side_effect = [(u'0241BEEFDEAD', {}), (None, {})]
@@ -105,7 +105,7 @@ class BasicTestCase(unittest.TestCase):
         for qos in [FSInteraction.BeforeFilter, FSInteraction.AfterFilter]:
             with patch("mbed_lstools.lstools_base.MbedDetectLsToolsBase._read_htm_ids") as _read_htm,\
                 patch("mbed_lstools.lstools_base.MbedDetectLsToolsBase.mount_point_ready") as _mpr,\
-                patch("mbed_lstools.lstools_base.PlatformDatabase.get") as _get,\
+                patch("mbed_os_tools.detect.platform_database.PlatformDatabase.get") as _get,\
                 patch("mbed_os_tools.detect.lstools_base.listdir") as _listdir:
                 _mpr.return_value = True
                 _read_htm.return_value = (u'not_in_target_db', {})
@@ -305,7 +305,7 @@ Remount count: 0
                                    'serial_port': "dummy_serial_port",
                                    'vendor_id': '0d28',
                                    'product_id': '0204'}]
-        with patch("mbed_lstools.lstools_base.PlatformDatabase.get") as _get,\
+        with patch("mbed_os_tools.detect.platform_database.PlatformDatabase.get") as _get,\
              patch("mbed_os_tools.detect.lstools_base.listdir") as _listdir:
             _get.return_value = {
                 'platform_name': 'foo_target'
@@ -567,7 +567,7 @@ class RetargetTestCase(unittest.TestCase):
                                    'serial_port': None}]
         with patch('mbed_lstools.lstools_base.MbedDetectLsToolsBase._read_htm_ids') as _read_htm,\
              patch('mbed_lstools.lstools_base.MbedDetectLsToolsBase.mount_point_ready') as _mpr,\
-             patch('mbed_lstools.lstools_base.PlatformDatabase.get') as _get,\
+             patch('mbed_os_tools.detect.platform_database.PlatformDatabase.get') as _get,\
              patch("mbed_os_tools.detect.lstools_base.listdir") as _listdir:
             _mpr.return_value = True
             _read_htm.return_value = (u'0240DEADBEEF', {})
