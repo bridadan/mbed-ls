@@ -24,7 +24,12 @@ from collections import defaultdict
 
 # Make sure that any global generic setup is run
 from . import lstools_base
-from mbed_os_tools.detect.main import *
+from mbed_os_tools.detect.main import (
+    create,
+    mbed_os_support,
+    mbed_lstools_os_info,
+    mock_platform
+)
 
 import logging
 logger = logging.getLogger("mbedls.main")

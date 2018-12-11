@@ -17,7 +17,12 @@ limitations under the License.
 
 """Functions that manage a platform database"""
 
-from mbed_os_tools.detect.platform_database import *
+from mbed_os_tools.detect.platform_database import (
+    LOCAL_PLATFORM_DATABASE,
+    LOCAL_MOCKS_DATABASE,
+    DEFAULT_PLATFORM_DB,
+    PlatformDatabase
+)
 
 """
 NOTE: The platform database is now in the mbed-tools repository. You can find it below:

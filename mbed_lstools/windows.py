@@ -15,4 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from mbed_os_tools.detect.windows import *
+from mbed_os_tools.detect.windows import (
+    MbedLsToolsWin7,
+    CompatibleIDsNotFoundException
+)

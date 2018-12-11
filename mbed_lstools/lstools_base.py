@@ -16,8 +16,16 @@ limitations under the License.
 """
 
 import functools
+import json
+import logging
 
-from mbed_os_tools.detect.lstools_base import *
+from mbed_os_tools.detect.lstools_base import (
+    FSInteraction,
+    MbedDetectLsToolsBase,
+)
+
+logger = logging.getLogger("mbedls.lstools_base")
+logger.addHandler(logging.NullHandler())
 
 def deprecated(reason):
     """Deprecate a function/method with a decorator"""
